@@ -1,15 +1,35 @@
-import TextField from "@mui/material/TextField/TextField";
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import { IconButton } from "@mui/material";
 import { AddBox } from "@mui/icons-material";
+import type { Meta, StoryObj } from "@storybook/react";
+import TextField from "@mui/material/TextField/TextField";
+import { AddItemForm, AddItemFormPropsType } from "../AddItemForm";
+import { action } from "@storybook/addon-actions";
 
-export type AddItemFormPropsType = {
-  addItem: (title: string) => void;
+const meta: Meta<typeof AddItemForm> = {
+  title: "TODOLISTS/AddItemForm",
+  component: AddItemForm,
+
+  tags: ["autodocs"],
+
+  argTypes: {
+    addItem: {
+      description: "Button clicked inside form",
+      action: "clicked",
+    },
+  },
 };
 
-export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
+export default meta;
+type Story = StoryObj<typeof AddItemForm>;
+
+export const AddItemFormStory: Story = {};
+
+export const AddItemFormError = (props: AddItemFormPropsType) => {
+  // render: () => <AddItemForm addItem={action("Button clicked inside form")} />,
+
   let [title, setTitle] = useState("");
-  let [error, setError] = useState<string | null>(null);
+  let [error, setError] = useState<string | null>("Title is required");
 
   const addItem = () => {
     if (title.trim() !== "") {
@@ -49,4 +69,10 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
       </IconButton>
     </div>
   );
-});
+};
+
+export const AddItemFormErrorStory: Story = {
+  render: () => (
+    <AddItemFormError addItem={action("Button clicked inside form")} />
+  ),
+};
